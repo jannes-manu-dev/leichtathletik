@@ -154,15 +154,35 @@ nicht mehr neben dem zum Wechseln. Danach lässt sich das Löschen einmal
 
 **Modus** – Hell, Dunkel oder Automatisch. Hell ist der Normalfall: weißer
 Grund, fast schwarze Schrift, Flächen durch Konturen getrennt statt durch
-Grautöne – draußen auf dem Sportplatz ist das am besten zu lesen. Dunkel
-dreht dieselben Marken um. Automatisch folgt der Einstellung des Geräts und
-zieht sofort nach, wenn sie sich dort ändert. Die Wahl gehört zum Profil,
-gilt also auf jedem Gerät.
+Grautöne – draußen auf dem Sportplatz ist das am besten zu lesen. Dunkel ist
+**echtes Schwarz** (siehe unten). Automatisch folgt der Einstellung des
+Geräts und zieht sofort nach, wenn sie sich dort ändert. Die Wahl gehört zum
+Profil, gilt also auf jedem Gerät.
+
+**Dunkel heißt #000000.** Vorher wurde auch der dunkle Grund aus dem
+gewählten Farbton gerechnet (`hsl(h 26% 8%)`) und war damit immer leicht
+getönt – ein dunkles Blau, ein dunkles Grün, nie Schwarz. Jetzt ist er
+reines Schwarz, bei jeder der zehn Farben, und der Radialschein über dem
+Grund ist abgeschaltet: `--bg-glow` trägt denselben Schwarzwert, läuft also
+ins Leere. Auch das Profil-Vollbild ist schwarz.
+
+Neutral sind dabei nur Grund, Flächen, Linien und Schrift – drei Graustufen
+(0 / 7 / 11,5 %), die die Ebenen auseinanderhalten; ohne sie liefe alles zu
+einer schwarzen Scheibe zusammen, auf der man nicht sieht, wo eine Karte
+anfängt. **Der Akzent bleibt farbig**: Er ist die Kennung des Profils, und
+auf Schwarz trägt er umso besser. Nachgemessen über alle zehn Farben: Text
+17,2:1 auf der Fläche, der schwächste Akzent (Violett) 4,7:1 – beides über
+der Schwelle.
+
+Ein eingestellter **Hintergrundverlauf** liegt weiterhin darüber und hellt
+den Grund örtlich auf. Wer es wirklich überall schwarz will, wählt dort
+„kein Verlauf".
 
 **Farbe** – zehn Akzentfarben (Mint, Limette, Aqua, Cyan, Blau, Violett,
-Magenta, Koralle, Orange, Gold). Jedes Schema wird aus einem Farbton
-berechnet: Grund, Flächen, Linien, Text und Akzent kommen aus derselben
-Quelle, deshalb bleibt keine Farbe zurück.
+Magenta, Koralle, Orange, Gold). Im hellen Modus wird jedes Schema aus einem
+Farbton berechnet: Grund, Flächen, Linien, Text und Akzent kommen aus
+derselben Quelle, deshalb bleibt keine Farbe zurück. Im dunklen gilt das nur
+noch für den Akzent.
 
 Der Akzent wird **gerechnet, nicht geraten**: Ein fester Helligkeitswert
 reicht nicht, weil Gelb bei 50 % auf Weiß kaum zu sehen ist und Blau bei

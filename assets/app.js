@@ -168,39 +168,53 @@
     };
   }
 
+  /* ---- Dunkel: echtes Schwarz ------------------------------------------
+     Der Grund ist #000 und bleibt es, egal welche Farbe gewählt ist. Vorher
+     wurde er aus dem Farbton gerechnet (hsl(h 26% 8%)) und war damit immer
+     leicht getönt – ein dunkles Blau, ein dunkles Grün, nie Schwarz.
+
+     Neutral sind nur Grund, Flächen, Linien und Schrift. Der Akzent bleibt
+     farbig: Er ist die Kennung des Profils, und auf Schwarz trägt er umso
+     besser. Die Stufen 0 / 7 / 15 % halten die drei Ebenen auseinander –
+     ohne sie liefe alles zu einer schwarzen Scheibe zusammen, auf der man
+     nicht sieht, wo eine Karte anfängt. */
+  const SCHWARZ = {
+    bg: 0, flaeche: 7, flaeche2: 11.5, linie: 26, linieWeich: 15,
+    text: 96, muted: 64
+  };
+
   function themeVarsDunkel(h, kraft, akzentL) {
     const k = kraft == null ? 1 : grenze(kraft, 0, 1);
     const s = v => (Math.round(v * k * 10) / 10) + '%';
-    const g = grundFaktor(akzentL);
-    const gl = (1 + g) / 2;                 // Linien folgen nur halb, sonst
-    const l = v => (Math.round(v * g * 10) / 10) + '%';   // verschwinden sie
-    const ll = v => (Math.round(v * gl * 10) / 10) + '%';
+    const grau = v => `hsl(0 0% ${v}%)`;
     const gewuenscht = akzentL == null ? 66 : grenze(akzentL, AKZENT_MIN, AKZENT_MAX);
-    // Auf der Fläche (nicht auf dem Grund) muss der Akzent lesbar sein. Ein
-    // tiefes Violett bei 66 % ist das knapp nicht – dann wird es so weit
-    // aufgehellt, wie nötig, und keinen Schritt weiter.
-    const flaecheLum = luminanz(h, 22 * k, Math.round(12.5 * g * 10) / 10);
+    // Auf der Fläche (nicht auf dem Grund) muss der Akzent lesbar sein. Die
+    // Fläche ist jetzt ein fester Grauwert, die Rechnung also unabhängig vom
+    // Farbton – und weil Schwarz dunkler ist als der getönte Grund vorher,
+    // darf der Akzent eher dunkler bleiben als heller werden.
+    const flaecheLum = luminanz(0, 0, SCHWARZ.flaeche);
     const aL = Math.min(AKZENT_MAX,
       kontrastHelligkeit(h, 94 * k, gewuenscht, 4.6, flaecheLum, 0.5));
     const dL = Math.max(36, aL - 14);
-    // Nur bei genau #ffffff: reines Weiß mit reinem Schwarz darauf.
-    // Alles andere behält die dunkle, leicht getönte Schrift.
+    // Nur bei genau #ffffff: reines Weiß als Akzent, reines Schwarz darauf.
     const reinWeiss = k === 0 && akzentL === 100;
-    const inkL = reinWeiss ? 0 : Math.round(7 * g * 10) / 10;
     const badH = (h >= 330 || h <= 45) ? 350 : 5;     // Warnfarbe bleibt unterscheidbar
     return {
-      '--bg':        `hsl(${h} ${s(26)} ${l(8)})`,
-      '--bg-glow':   `hsl(${h} ${s(34)} ${l(15)})`,
-      '--surface':   `hsl(${h} ${s(22)} ${l(12.5)})`,
-      '--surface-2': `hsl(${h} ${s(20)} ${l(17.5)})`,
-      '--line':      `hsl(${h} ${s(20)} ${ll(46)})`,
-      '--line-soft': `hsl(${h} ${s(20)} ${ll(24)})`,
-      '--text':      `hsl(${h} ${s(32)} 96%)`,
-      '--muted':     `hsl(${h} ${s(15)} 68%)`,
+      // Kein Schein über dem Grund: --bg-glow ist derselbe Schwarzwert, der
+      // Radialverlauf im body läuft damit ins Leere. „Echtes Schwarz" heißt
+      // auch oben am Rand Schwarz.
+      '--bg':        '#000000',
+      '--bg-glow':   '#000000',
+      '--surface':   grau(SCHWARZ.flaeche),
+      '--surface-2': grau(SCHWARZ.flaeche2),
+      '--line':      grau(SCHWARZ.linie),
+      '--line-soft': grau(SCHWARZ.linieWeich),
+      '--text':      grau(SCHWARZ.text),
+      '--muted':     grau(SCHWARZ.muted),
       '--mint':      `hsl(${h} ${s(94)} ${aL}%)`,
       '--mint-dim':  `hsl(${h} ${s(58)} ${dL}%)`,
       '--mint-glow': `hsla(${h} ${s(94)} ${aL}% / .22)`,
-      '--ink':       `hsl(${h} ${s(48)} ${inkL}%)`,
+      '--ink':       reinWeiss ? '#000000' : `hsl(${h} ${s(48)} 7%)`,
       // Rot bleibt Rot, auch im grauen Schema – sonst sieht man Warnungen nicht
       '--bad':       `hsl(${badH} 88% 70%)`,
       '--auflage':   'rgba(255, 255, 255, .05)',
@@ -209,12 +223,13 @@
       '--rand-tief': 'rgba(0, 0, 0, .55)',
       '--verlauf-a': '26%',
       '--verlauf-b': '13%',
-      '--voll-bg':      '#0A0B0D',
-      '--voll-glanz':   '#14161A',
-      '--voll-flaeche': '#15171A',
-      '--voll-line':    '#2B3034',
-      '--voll-text':    '#F2F5F4',
-      '--voll-muted':   '#93999B',
+      // Das Profil-Vollbild liegt über allem und ist deshalb auch schwarz.
+      '--voll-bg':      '#000000',
+      '--voll-glanz':   '#0B0B0B',
+      '--voll-flaeche': grau(SCHWARZ.flaeche),
+      '--voll-line':    grau(SCHWARZ.linie),
+      '--voll-text':    grau(SCHWARZ.text),
+      '--voll-muted':   grau(SCHWARZ.muted),
       '--glas-kante':  'rgba(255, 255, 255, .30)',
       '--glas-unten':  'rgba(255, 255, 255, .07)',
       '--glas-innen':  'rgba(255, 255, 255, .12)',
