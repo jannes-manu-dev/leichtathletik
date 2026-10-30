@@ -634,6 +634,18 @@ main { max-width: 780px; margin: 0 auto; padding: 18px 16px 8px; }
    auch über runden Flächen. Den machen wir selbst, und zwar in Form. */
 * { -webkit-tap-highlight-color: transparent; }
 
+/* Die Beschriftung eines Knopfes ist kein Text, den man lesen und mitnehmen
+   will – sie gehört zum Knopf. Ohne diese Zeile markiert ein Doppelklick
+   (oder ein langer Druck auf dem Handy) „Weiter als Schüler", und der
+   Markierungsbalken liegt als heller Streifen quer über der Fläche. Das
+   sieht nach Fehler aus und ist für niemanden zu gebrauchen.
+
+   Bewusst nur Bedienelemente: Werte, Namen und Hinweise bleiben markierbar,
+   denn die will man gelegentlich wirklich kopieren. */
+button, summary, label, .tab, .seg-btn, [role="button"] {
+  -webkit-user-select: none; user-select: none;
+}
+
 .leiste-kopf { display: none; }
 /* Der Gruppenname gehört in die linke Leiste. Auf dem Handy steht die
    Leiste unten und quer – dort hat er nichts zu suchen, dort übernimmt die

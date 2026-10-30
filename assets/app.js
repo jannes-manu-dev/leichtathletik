@@ -743,7 +743,10 @@
      brauchen jedes Mal den Klassen-Code. Änderungen gehen zuerst in die
      Oberfläche, dann über eine Warteschlange zum Server – so lässt sich auch
      ohne Netz weiter eintragen. */
-  const WEBSITE = 'https://janneslangner-arch.github.io/leichtathletik/';
+  /* Die Adresse der veröffentlichten Seite. Sie steckt im Benutzernamen auf
+     GitHub – wird der umbenannt, ist die alte Adresse tot, denn Pages leitet
+     nicht weiter (Repository-Adressen schon, Pages-Adressen nicht). */
+  const WEBSITE = 'https://jannes-manu-dev.github.io/leichtathletik/';
   const CFG_KEY = 'la-db-cfg', QUEUE_KEY = 'la-db-queue';
   let cfg = null;                 // {url, key, code} – bleibt auf diesem Gerät
   let queue = [];                 // noch nicht bestätigte Aufträge
