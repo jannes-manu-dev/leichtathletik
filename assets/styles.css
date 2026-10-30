@@ -1325,13 +1325,12 @@ body[data-pattern="strahlen"] #bgfx, .pattern-swatch[data-pattern="strahlen"] {
   padding: 18px 16px 16px; margin-bottom: 14px;
   background-image: none;
 }
-/* Angeschnittener Kreis in der Ecke – der einzige Kreis im ganzen Design,
-   und deshalb fällt er auf. Kontur, keine Fläche. */
-.punkte-summe::after {
-  content: ""; position: absolute; right: -46px; top: -46px;
-  width: 136px; height: 136px; border-radius: 50%;
-  border: 1px solid var(--mint); opacity: .5; pointer-events: none;
-}
+/* Hier saß einmal ein angeschnittener Kreis in der oberen rechten Ecke –
+   als Zierde gedacht, der einzige Kreis im ganzen Design. Er ist raus:
+   Ein ::after wird NACH dem Inhalt gezeichnet, lag also über der Schrift,
+   und die Linie lief quer durch „NOTE" und „Note 2-". Dazu rutscht der
+   Notenblock mit margin-left: auto in genau dieselbe Ecke. Zierde, die
+   durch den Inhalt schneidet, ist keine. */
 .punkte-summe .k { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 700; }
 .punkte-summe .v {
   font-size: clamp(38px, 12vw, 52px); font-weight: 800; letter-spacing: -.045em;
@@ -1999,11 +1998,16 @@ body.ist-lehrer .sortier-btn.is-active {
   }
 
   /* Farbige Flächen behalten ihre Farbe – dort wäre Glas nur Matsch.
-     Sie bekommen nur die Lichtkante. */
+     Sie bekommen nur die Lichtkante.
+
+     Die Kachel des aktiven Profils gehört NICHT hierher, auch wenn sie
+     lange hier stand: Sie ist durchsichtig (background: none), farbig ist
+     allein das Quadrat mit dem Buchstaben. Die Akzentfarbe lief deshalb
+     über die ganze Kachel bis unter den Namen und verlief dort ins Nichts –
+     ein trüber Schleier, während jede andere Kachel sauber blieb. */
   .btn-mint:hover, .save-btn:hover, .seg-btn.is-active:hover,
-  .p-tile.is-current:hover,
   .btn-mint:focus-visible, .save-btn:focus-visible,
-  .seg-btn.is-active:focus-visible, .p-tile.is-current:focus-visible {
+  .seg-btn.is-active:focus-visible {
     background-color: var(--mint);
     -webkit-backdrop-filter: none; backdrop-filter: none;
     box-shadow: inset 0 1.5px 0 var(--glas-kante),

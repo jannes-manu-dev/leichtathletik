@@ -362,8 +362,14 @@ Vollbild, Dialog, Meldung.
 
 Die Überschrift trägt die Seite: groß, eng gesetzt (`letter-spacing: -.04em`),
 mit einem Punkt am Ende. Auf der Punkteseite steht die Summe in derselben
-Größe, dahinter ein angeschnittener Kreis – der einzige Kreis im ganzen
-Design, deshalb fällt er auf.
+Größe.
+
+Dort saß einmal ein angeschnittener Kreis in der Ecke – der einzige Kreis im
+ganzen Design, und genau deshalb fiel er auf. Er ist raus: Als `::after` ohne
+`z-index` wurde er **nach** dem Inhalt gezeichnet, lag also über der Schrift,
+und seine Linie lief quer durch „NOTE" und „Note 2-". In dieselbe Ecke rutscht
+der Notenblock (`margin-left: auto`) – die beiden standen sich im Weg. Zierde,
+die durch den Inhalt schneidet, ist keine.
 
 ## Glas unter dem Zeiger
 
